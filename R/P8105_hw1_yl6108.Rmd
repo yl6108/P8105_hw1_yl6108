@@ -1,0 +1,63 @@
+---
+title: "P8105_hw1_yl6108"
+output: html_document
+---
+
+# Session 1
+```{r} 
+library(ggplot2)
+data("penguins", package = "palmerpenguins")
+```
+
+The `penguins` dataset contains variable `r names(penguins)`.
+The dataset has `r nrow(penguins)` rows and `r ncol(penguins)` columns.
+The mean of flipper length is
+`r mean(penguins$flipper_length_mm, na.rm = TRUE)` mm.
+
+```{r} 
+penguins_plot=ggplot(
+  penguins, 
+  aes(
+   x=bill_length_mm,
+   y=flipper_length_mm,
+   color=species)
+)+
+  geom_point()
+
+ggsave(
+  "penguins_scatterplot.png",
+   plot = penguins_plot
+)
+```
+# Session 2
+```{r}
+library(tidyverse)
+
+sample=rnorm(10)
+   sample_df=data.frame(
+     sample=sample,
+     sample_0=sample>0,
+     char_vec=c("A","B","C","D","E","F","G","H","I","J"),
+     factor_vec=factor(
+       c(1,2,3,1,2,1,2,1,2,3)
+     )
+)
+     
+mean(pull(sample_df,sample ))
+mean(pull(sample_df,sample_0 ))
+mean(pull(sample_df,char_vec ))
+mean(pull(sample_df,factor_vec ))
+```
+
+We got the mean of random sample and logical vector, while character and factor vector didn't.
+
+```{r, results = "hide"}
+as.numeric(pull(sample_df, sample_0))
+as.numeric(pull(sample_df, char_vec))
+as.numeric(pull(sample_df, factor_vec))
+```
+
+When logical variables were converted  to numeric, TRUE became 1 and FALSE became 0.Character values that cannot be interpreted as numbers become NA and factor variables became 1,2 and 3.
+
+Logical variables were identified TRUE as 1 and FALSE as 0, so we can take the mean.
+
